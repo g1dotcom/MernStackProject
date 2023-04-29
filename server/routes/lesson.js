@@ -7,15 +7,16 @@ import {
   getLesson,
   updateLesson,
 } from "../controllers/lesson.js";
+import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
 //create
-router.post("/", createLesson);
+router.post("/", verifyAdmin, createLesson);
 //put
-router.put("/:id", updateLesson);
+router.put("/:id", verifyAdmin, updateLesson);
 //delete
-router.delete("/:id", deleteLesson);
+router.delete("/:id", verifyAdmin, deleteLesson);
 //get
 router.get("/:id", getLesson);
 //getAll
