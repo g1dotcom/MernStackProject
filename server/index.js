@@ -1,22 +1,57 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors";
-import bodyParser from "body-parser";
-import database from "./config/database.js";
+import mongoose from "mongoose";
 
-dotenv.config();
+//import routes
+import authRoute from "./routes/auth.js";
+import lessonRoute from "./routes/lesson.js";
+import teacherRoute from "./routes/teacher.js";
+import studentRoute from "./routes/student.js";
+//connect to db
+
+//middlewares
 
 const app = express();
-app.use(cors());
+dotenv.config();
 
-app.use(bodyParser.json({ limit: "50mb", extended: true }));
+const connect = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO);
+    console.log("Connected to mongoDB");
+  } catch (error) {
+    throw error;
+  }
+};
 
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+mongoose.connection.on("disconnected", () => {
+  console.log("mongoDB disconnected");
+});
 
-const PORT = 5000;
+mongoose.connection.on("connected", () => {
+  console.log("mongoDB connected");
+});
 
-database();
+//middlewares
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.use(express.json());
+
+app.use("/api/auth", authRoute);
+app.use("/api/lessons", lessonRoute);
+app.use("/api/teacher", teacherRoute);
+app.use("/api/student", studentRoute);
+
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went wrong!";
+  return res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: errorMessage,
+    stack: err.stack,
+  });
+});
+
+app.listen(8800, () => {
+  connect();
+  console.log("Connected to backend");
 });
