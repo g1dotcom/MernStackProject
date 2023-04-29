@@ -1,56 +1,24 @@
 import express from "express";
-import Lesson from "../models/lesson.js";
 import { createError } from "../utils/error.js";
+import {
+  createLesson,
+  deleteLesson,
+  getAllLesson,
+  getLesson,
+  updateLesson,
+} from "../controllers/lesson.js";
 
 const router = express.Router();
 
 //create
-router.post("/", async (req, res) => {
-  const newLesson = new Lesson(req.body);
-  try {
-    const savedLesson = await newLesson.save();
-    res.status(200).json(savedLesson);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+router.post("/", createLesson);
 //put
-router.put("/:id", async (req, res) => {
-  try {
-    const updatedLesson = await Lesson.findByIdAndUpdate(req.params.id, {
-      $set: req.body,
-    });
-    res.status(200).json(updatedLesson);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+router.put("/:id", updateLesson);
 //delete
-router.delete("/:id", async (req, res) => {
-  try {
-    await Lesson.findByIdAndDelete(req.params.id);
-    res.status(200).json("Lesson has been deleted");
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+router.delete("/:id", deleteLesson);
 //get
-router.get("/:id", async (req, res) => {
-  try {
-    const lesson = await Lesson.findById(req.params.id);
-    res.status(200).json(lesson);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+router.get("/:id", getLesson);
 //getAll
-router.get("/", async (req, res, next) => {
-  try {
-    const lessons = await Lesson.find();
-    res.status(200).json(lessons);
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/", getAllLesson);
 
 export default router;
