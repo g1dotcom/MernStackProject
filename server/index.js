@@ -6,8 +6,8 @@ import cookieParser from "cookie-parser";
 //import routes
 import authRoute from "./routes/auth.js";
 import lessonRoute from "./routes/lesson.js";
-import teacherRoute from "./routes/teacher.js";
-import studentRoute from "./routes/student.js";
+import userRoute from "./routes/users.js";
+
 //connect to db
 
 const app = express();
@@ -36,8 +36,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoute);
 app.use("/api/lessons", lessonRoute);
-app.use("/api/teacher", teacherRoute);
-app.use("/api/student", studentRoute);
+app.use("/api/users", userRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
