@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 
 //import routes
 import authRoute from "./routes/auth.js";
@@ -8,8 +9,6 @@ import lessonRoute from "./routes/lesson.js";
 import teacherRoute from "./routes/teacher.js";
 import studentRoute from "./routes/student.js";
 //connect to db
-
-//middlewares
 
 const app = express();
 dotenv.config();
@@ -32,7 +31,7 @@ mongoose.connection.on("connected", () => {
 });
 
 //middlewares
-
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
