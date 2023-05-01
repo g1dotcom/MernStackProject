@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    lessons: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }],
+    lessons: { type: Array, default: [] },
   },
   { timestamps: true }
 );

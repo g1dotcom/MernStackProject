@@ -29,6 +29,6 @@ router.get("/:id", verifyUser, getUser);
 //GETALL
 router.get("/", verifyAdmin, getAllUser);
 //Favroite lesson
-router.put("/:id", addFavorite);
+router.put("/:userId", addFavorite);
 
 export default router;

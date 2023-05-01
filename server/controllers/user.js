@@ -52,6 +52,14 @@ export const getAllUser = async (req, res, next) => {
 
 //favorites
 export const addFavorite = async (req, res, next) => {
+  const userId = await User.findById(req.params.id);
+
+  if (!userId.lessons.includes(req.body.lessonId)) {
+    userId.lessons.push(req.body.lessonId);
+    await userId.save();
+    res.status(200).json("lesson has been added to favorites");
+  }
+
   try {
   } catch (err) {
     next(err);
