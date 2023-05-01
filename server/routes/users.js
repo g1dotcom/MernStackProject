@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addFavorite,
   deleteUser,
   getAllUser,
   getUser,
@@ -27,5 +28,7 @@ router.delete("/:id", verifyUser, deleteUser);
 router.get("/:id", verifyUser, getUser);
 //GETALL
 router.get("/", verifyAdmin, getAllUser);
+//Favroite lesson
+router.put("/:id", addFavorite);
 
 export default router;
