@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import Lesson from "../models/lesson.js";
 
 //UPDATE User
 
@@ -44,6 +45,14 @@ export const getAllUser = async (req, res, next) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
+  } catch (err) {
+    next(err);
+  }
+};
+
+//favorites
+export const addFavorite = async (req, res, next) => {
+  try {
   } catch (err) {
     next(err);
   }

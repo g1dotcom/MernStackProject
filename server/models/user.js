@@ -22,11 +22,13 @@ const UserSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["teacher", "student"],
+      required: true,
     },
     isAdmin: {
       type: Boolean,
       default: false,
     },
+    lessons: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }],
   },
   { timestamps: true }
 );
